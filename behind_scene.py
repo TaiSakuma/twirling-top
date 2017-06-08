@@ -18,10 +18,11 @@ class TwilightTree(object):
 
     def summarize(self, tblcfg, max_events = -1):
 
+        default_cfg = dict(
+            outFile = False,
+        )
+        tblcfg = self._complement_tblcfg_with_default(tblcfg, default_cfg)
 
-        for cfg in tblcfg:
-            if not 'outFile' in cfg:
-                cfg['outFile'] = False
         tableConfigCompleter = alphatwirl.configure.TableConfigCompleter(
             defaultSummaryClass = alphatwirl.summary.Count,
             createOutFileName = alphatwirl.configure.TableFileNameComposer2(default_prefix = 'tbl_n')
@@ -38,6 +39,14 @@ class TwilightTree(object):
         eventLoop = alphatwirl.loop.EventLoop(eventBuilder, reader)
         reader = eventLoop()
         return collector.collect(((None, (reader, )), ))
+
+    def _complement_tblcfg_with_default(self, tblcfg, default_cfg):
+        for cfg in tblcfg:
+            default_cfg_copy =  default_cfg.copy()
+            default_cfg_copy.update(cfg)
+            cfg.clear()
+            cfg.update(default_cfg_copy)
+        return tblcfg
 
 
 ##__________________________________________________________________||
