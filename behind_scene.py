@@ -16,7 +16,8 @@ class TwilightTree(object):
             ', '.join(['{} = {!r}'.format(n, v) for n, v in name_value_pairs]),
         )
 
-    def summarize(self, tblcfg):
+    def summarize(self, tblcfg, max_events = -1):
+
 
         for cfg in tblcfg:
             if not 'outFile' in cfg:
@@ -33,7 +34,7 @@ class TwilightTree(object):
         for r, c in reader_collector_pairs:
             reader.add(r)
             collector.add(c)
-        eventBuilder =  EventBuilder(self.tree)
+        eventBuilder =  EventBuilder(self.tree, max_events = max_events)
         eventLoop = alphatwirl.loop.EventLoop(eventBuilder, reader)
         reader = eventLoop()
         return collector.collect(((None, (reader, )), ))
