@@ -41,8 +41,9 @@ class TwilightTree(object):
 
 ##__________________________________________________________________||
 class EventBuilder(object):
-    def __init__(self, tree):
+    def __init__(self, tree, max_events = -1):
         self.tree = tree
+        self.max_events = max_events
 
     def __repr__(self):
         name_value_pairs = (
@@ -54,7 +55,7 @@ class EventBuilder(object):
         )
 
     def __call__(self):
-        events = alphatwirl.roottree.BEvents(self.tree)
+        events = alphatwirl.roottree.BEvents(self.tree, maxEvents = self.max_events)
         return events
 
 ##__________________________________________________________________||
