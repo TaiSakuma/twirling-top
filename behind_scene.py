@@ -40,6 +40,16 @@ class TwilightTree(object):
         reader = eventLoop()
         return collector.collect(((None, (reader, )), ))
 
+    def scan(self, tblcfg, max_events = 10):
+
+        default_cfg = dict(
+            keyAttrNames = ( ),
+            sort = False,
+            summaryClass = alphatwirl.summary.Scan
+        )
+        tblcfg = self._complement_tblcfg_with_default(tblcfg, default_cfg)
+        return self.summarize(tblcfg, max_events = max_events)
+
     def _complement_tblcfg_with_default(self, tblcfg, default_cfg):
         for cfg in tblcfg:
             default_cfg_copy =  default_cfg.copy()
